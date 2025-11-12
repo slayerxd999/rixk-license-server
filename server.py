@@ -193,8 +193,8 @@ def delete_key():
 @app.route('/download/vry_mobile.py')
 def download_vry_mobile():
     """Download the latest vry_mobile.py (PUBLIC - Base64 encoded for security)"""
-    # Path to the tool file
-    tool_file = Path(__file__).parent.parent / 'vry_mobile.py'
+    # Path to the tool file (in the same directory as server.py)
+    tool_file = Path(__file__).parent / 'vry_mobile.py'
     
     if tool_file.exists():
         # Read and encode the file to prevent easy copying
