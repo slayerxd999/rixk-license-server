@@ -14,7 +14,7 @@ app = Flask(__name__, static_folder='public')
 CORS(app)
 
 # Admin password (change this!)
-ADMIN_PASSWORD = "admin123"  # TODO: Change this to a secure password
+ADMIN_PASSWORD = "slayerop@123569"  # TODO: Change this to a secure password
 
 # Database initialization
 def init_db():
@@ -192,12 +192,21 @@ def delete_key():
 
 @app.route('/download/vry_mobile.py')
 def download_vry_mobile():
-    """Download the latest vry_mobile.py (PUBLIC)"""
+    """Download the latest vry_mobile.py (PUBLIC - Base64 encoded for security)"""
     # Path to the tool file
     tool_file = Path(__file__).parent.parent / 'vry_mobile.py'
     
     if tool_file.exists():
-        return send_file(tool_file, mimetype='text/x-python', as_attachment=False)
+        # Read and encode the file to prevent easy copying
+        with open(tool_file, 'rb') as f:
+            content = f.read()
+        
+        # Base64 encode to obfuscate during transit
+        import base64
+        encoded = base64.b64encode(content)
+        
+        # Return as plain text (will be decoded by client)
+        return encoded, 200, {'Content-Type': 'text/plain'}
     else:
         return jsonify({'error': 'Tool file not found'}), 404
 
