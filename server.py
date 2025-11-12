@@ -1,13 +1,14 @@
 # License Key Management Server
 # Run with: python server.py
 
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
 import sqlite3
 import secrets
 import hashlib
 from datetime import datetime
 import os
+from pathlib import Path
 
 app = Flask(__name__, static_folder='public')
 CORS(app)
@@ -188,6 +189,17 @@ def delete_key():
     conn.close()
     
     return jsonify({'success': True, 'message': 'License key deleted'})
+
+@app.route('/download/vry_mobile.py')
+def download_vry_mobile():
+    """Download the latest vry_mobile.py (PUBLIC)"""
+    # Path to the tool file
+    tool_file = Path(__file__).parent.parent / 'vry_mobile.py'
+    
+    if tool_file.exists():
+        return send_file(tool_file, mimetype='text/x-python', as_attachment=False)
+    else:
+        return jsonify({'error': 'Tool file not found'}), 404
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))  # Use PORT from environment or default to 5000
