@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>License Key Management Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="8" fill="url(#gradient1)"/>
+                    <path d="M20 10L25 15H22V25H18V15H15L20 10Z" fill="white"/>
+                    <rect x="14" y="27" width="12" height="2" rx="1" fill="white"/>
+                    <defs>
+                        <linearGradient id="gradient1" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#667eea"/>
+                            <stop offset="100%" stop-color="#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>License Key Manager</h1>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalKeys">0</div>
+                    <div class="stat-label">Total Keys</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="activeKeys">0</div>
+                    <div class="stat-label">Active Keys</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="card">
+            <h2>🔐 Admin Access</h2>
+            <p class="subtitle">Enter your admin password to manage license keys</p>
+            <div class="form-group">
+                <label>Admin Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter admin password" autocomplete="current-password">
+            </div>
+            <button class="btn btn-primary" onclick="login()">
+                <span>Access Panel</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M7 10H17M17 10L14 7M17 10L14 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div id="loginError" class="error-message"></div>
+        </div>
+
+        <!-- Main Panel (hidden initially) -->
+        <div id="mainPanel" style="display: none;">
+            
+            <!-- Generate Key Section -->
+            <div class="card">
+                <h2>➕ Generate New License Key</h2>
+                <div class="form-group">
+                    <label>Note (Optional)</label>
+                    <input type="text" id="keyNote" placeholder="e.g., Customer name, order ID, etc.">
+                </div>
+                <button class="btn btn-success" onclick="generateKey()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>Generate Key</span>
+                </button>
+                <div id="generateResult" class="success-message"></div>
+            </div>
+
+            <!-- Keys List -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>📋 License Keys</h2>
+                    <button class="btn btn-secondary" onclick="loadKeys()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M17 10C17 10 17 10 17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C12.7614 3 15.1355 4.67187 16.2426 7.07107" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M17 3V7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Refresh</span>
+                    </button>
+                </div>
+                <div id="keysList" class="keys-container">
+                    <div class="loading">Loading keys...</div>
+                </div>
+            </div>
+
+            <!-- Logout -->
+            <div class="logout-section">
+                <button class="btn btn-ghost" onclick="logout()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M13 3H16C16.5523 3 17 3.44772 17 4V16C17 16.5523 16.5523 17 16 17H13M7 14L3 10M3 10L7 6M3 10H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
