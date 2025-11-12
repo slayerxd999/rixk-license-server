@@ -193,22 +193,27 @@ def delete_key():
 @app.route('/download/vry_mobile.py')
 def download_vry_mobile():
     """Download the latest vry_mobile.py (PUBLIC - Base64 encoded for security)"""
+    import base64
+    from io import BytesIO
+    
     # Path to the tool file (in the same directory as server.py)
     tool_file = Path(__file__).parent / 'vry_mobile.py'
     
-    if tool_file.exists():
+    if not tool_file.exists():
+        return jsonify({'error': 'Tool file not found'}), 404
+    
+    try:
         # Read and encode the file to prevent easy copying
         with open(tool_file, 'rb') as f:
             content = f.read()
         
         # Base64 encode to obfuscate during transit
-        import base64
         encoded = base64.b64encode(content)
         
         # Return as plain text (will be decoded by client)
         return encoded, 200, {'Content-Type': 'text/plain'}
-    else:
-        return jsonify({'error': 'Tool file not found'}), 404
+    except Exception as e:
+        return jsonify({'error': f'Failed to load tool: {str(e)}'}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))  # Use PORT from environment or default to 5000
